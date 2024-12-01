@@ -6,6 +6,8 @@ import oncall.utils.ErrorMessage;
 
 public record Name(String value) {
 
+    private static final int MAX_SIZE = 5;
+
     public Name {
         validName(value);
     }
@@ -15,7 +17,7 @@ public record Name(String value) {
     }
 
     public void validName(String value) {
-        if (value == null || value.isBlank() || value.length() > 5) {
+        if (value == null || value.isBlank() || value.length() > MAX_SIZE) {
             throw new CustomIllegalArgumentException(ErrorMessage.INVALID_INPUT);
         }
     }

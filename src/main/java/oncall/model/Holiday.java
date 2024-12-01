@@ -22,7 +22,7 @@ public enum Holiday {
 
     public static boolean isHoliday(int month, int day) {
         return Arrays.stream(values())
-                .anyMatch((today) -> today.checkHoliday(month, day));
+                .anyMatch(today -> today.checkHoliday(month, day));
     }
 
     public boolean checkHoliday(int month, int day) {

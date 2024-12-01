@@ -18,6 +18,7 @@ public class Order {
 
     private static final long DAY_OFFSET = 1;
     private static final int MAX_PERSON = 35;
+    private static final int MIN_PERSON = 5;
 
     private Deque<Name> weekdaysOrder;
     private Deque<Name> weekendsOrder;
@@ -58,7 +59,7 @@ public class Order {
     }
 
     public void validMinSize(List<Name> names) {
-        if (names.size() < 5) {
+        if (names.size() < MIN_PERSON) {
             throw new CustomIllegalArgumentException(ErrorMessage.INVALID_INPUT);
         }
     }
