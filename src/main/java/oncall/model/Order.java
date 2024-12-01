@@ -16,6 +16,9 @@ import oncall.utils.StringUtils;
 
 public class Order {
 
+    private static final long DAY_OFFSET = 1;
+    private static final int MAX_PERSON = 35;
+
     private Deque<Name> weekdaysOrder;
     private Deque<Name> weekendsOrder;
 
@@ -71,7 +74,7 @@ public class Order {
     }
 
     private void checkWeek(int month, int day, DayOfWeek startDayofWeek, List<Name> order) {
-        DayOfWeek dayOfWeek = startDayofWeek.plus(day - 1);
+        DayOfWeek dayOfWeek = startDayofWeek.plus(day - DAY_OFFSET);
 
         if (DayOfTheWeek.isWeekends(dayOfWeek) || Holiday.isHoliday(month, day)) {
             addName(order, weekendsOrder);
@@ -87,7 +90,7 @@ public class Order {
 
         weekName.addAll(weekEndsName);
 
-        if (weekName.size() > 35) {
+        if (weekName.size() > MAX_PERSON) {
             throw new CustomIllegalArgumentException(ErrorMessage.INVALID_INPUT);
         }
     }

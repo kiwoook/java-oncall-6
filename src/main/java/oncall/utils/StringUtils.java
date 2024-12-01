@@ -4,8 +4,6 @@ import oncall.exception.CustomIllegalArgumentException;
 
 public class StringUtils {
 
-    private static final String OR = "|";
-
     private StringUtils() {
     }
 
