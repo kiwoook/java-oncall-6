@@ -24,7 +24,9 @@ public class TurnCollect {
     }
 
     public void addWeekdays(String input) {
-        List<Name> names = Arrays.stream(StringUtils.split(",", input, null)).map(Name::from).toList();
+        List<Name> names = Arrays.stream(StringUtils.split(",", input, null))
+                .map(Name::from)
+                .toList();
 
         validDuplicateNames(names);
         validSize(names);
@@ -33,7 +35,9 @@ public class TurnCollect {
     }
 
     public void addWeekends(String input) {
-        List<Name> names = Arrays.stream(StringUtils.split(",", input, null)).map(Name::from).toList();
+        List<Name> names = Arrays.stream(StringUtils.split(",", input, null))
+                .map(Name::from)
+                .toList();
 
         validDuplicateNames(names);
         validSize(names);
@@ -55,7 +59,6 @@ public class TurnCollect {
         }
     }
 
-    // 날짜와 요일을 입력받음
     public List<Name> order(int month, DayOfWeek startDayofWeek) {
         List<Name> order = new ArrayList<>();
 

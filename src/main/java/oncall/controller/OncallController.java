@@ -2,6 +2,7 @@ package oncall.controller;
 
 import java.time.DayOfWeek;
 import java.util.List;
+import oncall.exception.CustomIllegalArgumentException;
 import oncall.model.Name;
 import oncall.model.StartInput;
 import oncall.model.TurnCollect;
@@ -22,8 +23,7 @@ public class OncallController {
 
     public void run() {
         StartInput startInput = getStartInput();
-        getWeekDays();
-        getWeekends();
+        getWorkers();
         process(startInput);
     }
 
@@ -31,14 +31,24 @@ public class OncallController {
         return RecoveryUtils.executeWithRetry(inputViewer::startInput, StartInput::of);
     }
 
-    public void getWeekDays() {
+    public void getWorkers() {
+        getWeekdays();
+    }
+
+    public void getWeekdays() {
         RecoveryUtils.executeWithRetry(inputViewer::weekdaysInput, turnCollect::addWeekdays);
+        getWeekends();
     }
 
     public void getWeekends() {
-        RecoveryUtils.executeWithRetry(inputViewer::weekendsInput, turnCollect::addWeekends);
+        try {
+            String input = RecoveryUtils.executeWithRetry(inputViewer::weekendsInput);
+            turnCollect.addWeekends(input);
+        } catch (CustomIllegalArgumentException e) {
+            outputViewer.printError(e);
+            getWorkers();
+        }
     }
-
 
     public void process(StartInput startInput) {
         int month = startInput.month()
@@ -48,7 +58,7 @@ public class OncallController {
 
         List<String> nameList = turnCollect.order(month, dayOfWeek)
                 .stream()
-                .map(Name::getValue)
+                .map(Name::value)
                 .toList();
 
         outputViewer.printResult(month, dayOfWeek, nameList);

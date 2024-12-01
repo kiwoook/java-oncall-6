@@ -4,13 +4,10 @@ import java.util.Objects;
 import oncall.exception.CustomIllegalArgumentException;
 import oncall.utils.ErrorMessage;
 
-public class Name {
+public record Name(String value) {
 
-    private final String value;
-
-    public Name(String value) {
+    public Name {
         validName(value);
-        this.value = value;
     }
 
     public static Name from(String value) {
@@ -23,10 +20,6 @@ public class Name {
         }
     }
 
-    public String getValue() {
-        return value;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -37,17 +30,5 @@ public class Name {
         }
         Name name = (Name) o;
         return Objects.equals(value, name.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(value);
-    }
-
-    @Override
-    public String toString() {
-        return "Name{" +
-                "value='" + value + '\'' +
-                '}';
     }
 }
