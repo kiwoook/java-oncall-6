@@ -28,7 +28,9 @@ public class Order {
     }
 
     public void addWeekdays(String input) {
-        List<Name> names = Arrays.stream(StringUtils.split(",", input, null)).map(Name::from).toList();
+        List<Name> names = Arrays.stream(StringUtils.split(",", input, null))
+                .map(Name::from)
+                .toList();
 
         validDuplicateNames(names);
         validMinSize(names);
@@ -37,7 +39,9 @@ public class Order {
     }
 
     public void addWeekends(String input) {
-        List<Name> names = Arrays.stream(StringUtils.split(",", input, null)).map(Name::from).toList();
+        List<Name> names = Arrays.stream(StringUtils.split(",", input, null))
+                .map(Name::from)
+                .toList();
 
         validDuplicateNames(names);
         validMinSize(names);
