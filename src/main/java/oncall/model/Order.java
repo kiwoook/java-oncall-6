@@ -28,9 +28,7 @@ public class Order {
     }
 
     public void addWeekdays(String input) {
-        List<Name> names = Arrays.stream(StringUtils.split(",", input, null))
-                .map(Name::from)
-                .toList();
+        List<Name> names = Arrays.stream(StringUtils.split(",", input, null)).map(Name::from).toList();
 
         validDuplicateNames(names);
         validMinSize(names);
@@ -39,9 +37,7 @@ public class Order {
     }
 
     public void addWeekends(String input) {
-        List<Name> names = Arrays.stream(StringUtils.split(",", input, null))
-                .map(Name::from)
-                .toList();
+        List<Name> names = Arrays.stream(StringUtils.split(",", input, null)).map(Name::from).toList();
 
         validDuplicateNames(names);
         validMinSize(names);
@@ -85,12 +81,12 @@ public class Order {
     }
 
     public void validMaxSize() {
-        Set<Name> weekName = new HashSet<>(weekdaysOrder);
-        Set<Name> weekEndsName = new HashSet<>(weekendsOrder);
+        Set<Name> weekTotalName = new HashSet<>();
 
-        weekName.addAll(weekEndsName);
+        weekTotalName.addAll(new HashSet<>(weekdaysOrder));
+        weekTotalName.addAll(new HashSet<>(weekendsOrder));
 
-        if (weekName.size() > MAX_PERSON) {
+        if (weekTotalName.size() > MAX_PERSON) {
             throw new CustomIllegalArgumentException(ErrorMessage.INVALID_INPUT);
         }
     }
@@ -110,7 +106,7 @@ public class Order {
     }
 
 
-    public Name getNextName(Deque<Name> deque) {
+    private Name getNextName(Deque<Name> deque) {
         Name nextName = deque.pollFirst();
         deque.addLast(nextName);
 
@@ -118,7 +114,7 @@ public class Order {
     }
 
 
-    public boolean checkContinuouslyName(List<Name> order, Name name) {
+    private boolean checkContinuouslyName(List<Name> order, Name name) {
         if (order.isEmpty()) {
             return false;
         }
