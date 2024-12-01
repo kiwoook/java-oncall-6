@@ -35,15 +35,4 @@ public class RecoveryUtils {
         }
     }
 
-    public static <T> T executeWithRetry(Supplier<T> inputSupplier) {
-        while (true) {
-            try {
-                return inputSupplier.get();
-            } catch (CustomIllegalArgumentException e) {
-                VIEWER.printError(e);
-            }
-        }
-    }
-
-
 }

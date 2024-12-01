@@ -1,15 +1,11 @@
 package oncall.controller;
 
 import java.time.DayOfWeek;
-import java.util.Arrays;
 import java.util.List;
-import oncall.model.DayOfTheWeek;
-import oncall.model.Month;
 import oncall.model.Name;
 import oncall.model.StartInput;
 import oncall.model.TurnCollect;
 import oncall.utils.RecoveryUtils;
-import oncall.utils.StringUtils;
 import oncall.view.InputViewer;
 import oncall.view.OutputViewer;
 
@@ -25,20 +21,14 @@ public class OncallController {
     }
 
     public void run() {
-        StartInput startInput = RecoveryUtils.executeWithRetry(inputViewer::startInput, this::getStartInput);
+        StartInput startInput = getStartInput();
         getWeekDays();
         getWeekends();
         process(startInput);
     }
 
-
-    public StartInput getStartInput(String input) {
-        String[] split = StringUtils.split(",", input, 2);
-
-        System.out.println(Arrays.toString(split));
-        Month month = Month.of(split[0]);
-        DayOfTheWeek dayOfTheWeek = DayOfTheWeek.from(split[1]);
-        return new StartInput(month, dayOfTheWeek);
+    public StartInput getStartInput() {
+        return RecoveryUtils.executeWithRetry(inputViewer::startInput, StartInput::of);
     }
 
     public void getWeekDays() {

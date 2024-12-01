@@ -58,10 +58,6 @@ public class TurnCollect {
     // 날짜와 요일을 입력받음
     public List<Name> order(int month, DayOfWeek startDayofWeek) {
         List<Name> order = new ArrayList<>();
-        System.out.println("출력 확인");
-        System.out.println(weekdaysDeque);
-        System.out.println(weekendsDeque);
-        System.out.println("------");
 
         for (int day = 1; day <= MONTH_DAYS[month]; day++) {
             checkWeek(month, day, startDayofWeek, order);
