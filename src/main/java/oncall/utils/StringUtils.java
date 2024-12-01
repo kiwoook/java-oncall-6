@@ -8,7 +8,7 @@ public class StringUtils {
     }
 
     public static String[] split(String regex, String input, Integer fieldCount) {
-        if (regex == null || input == null || input.isBlank() || input.startsWith(regex)) {
+        if (regex == null || input == null || input.isBlank() || input.endsWith(regex)) {
             throw new CustomIllegalArgumentException(ErrorMessage.INVALID_INPUT.getMessage());
         }
 

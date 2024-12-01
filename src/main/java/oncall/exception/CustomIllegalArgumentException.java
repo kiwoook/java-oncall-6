@@ -2,7 +2,7 @@ package oncall.exception;
 
 import oncall.utils.ErrorMessage;
 
-public class CustomIllegalArgumentException extends RuntimeException {
+public class CustomIllegalArgumentException extends IllegalArgumentException {
     public CustomIllegalArgumentException(String message) {
         super(message);
     }
