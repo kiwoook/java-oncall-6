@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import oncall.exception.CustomIllegalArgumentException;
 import oncall.utils.ErrorMessage;
 import oncall.utils.StringUtils;
@@ -16,11 +17,11 @@ import oncall.utils.StringUtils;
 public class Order {
 
     private Deque<Name> weekdaysOrder;
-    private Deque<Name> weekendsOder;
+    private Deque<Name> weekendsOrder;
 
     public Order() {
         this.weekdaysOrder = new ArrayDeque<>();
-        this.weekendsOder = new ArrayDeque<>();
+        this.weekendsOrder = new ArrayDeque<>();
     }
 
     public void addWeekdays(String input) {
@@ -29,7 +30,7 @@ public class Order {
                 .toList();
 
         validDuplicateNames(names);
-        validSize(names);
+        validMinSize(names);
 
         this.weekdaysOrder = new ArrayDeque<>(names);
     }
@@ -40,9 +41,9 @@ public class Order {
                 .toList();
 
         validDuplicateNames(names);
-        validSize(names);
+        validMinSize(names);
 
-        this.weekendsOder = new ArrayDeque<>(names);
+        this.weekendsOrder = new ArrayDeque<>(names);
     }
 
     public void validDuplicateNames(List<Name> names) {
@@ -53,8 +54,8 @@ public class Order {
         }
     }
 
-    public void validSize(List<Name> names) {
-        if (names.size() < 5 || names.size() > 35) {
+    public void validMinSize(List<Name> names) {
+        if (names.size() < 5) {
             throw new CustomIllegalArgumentException(ErrorMessage.INVALID_INPUT);
         }
     }
@@ -73,11 +74,22 @@ public class Order {
         DayOfWeek dayOfWeek = startDayofWeek.plus(day - 1);
 
         if (DayOfTheWeek.isWeekends(dayOfWeek) || Holiday.isHoliday(month, day)) {
-            addName(order, weekendsOder);
+            addName(order, weekendsOrder);
             return;
         }
 
         addName(order, weekdaysOrder);
+    }
+
+    public void validMaxSize() {
+        Set<Name> weekName = new HashSet<>(weekdaysOrder);
+        Set<Name> weekEndsName = new HashSet<>(weekendsOrder);
+
+        weekName.addAll(weekEndsName);
+
+        if (weekName.size() > 35) {
+            throw new CustomIllegalArgumentException(ErrorMessage.INVALID_INPUT);
+        }
     }
 
     private void addName(List<Name> order, Deque<Name> deque) {

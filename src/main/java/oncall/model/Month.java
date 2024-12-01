@@ -3,13 +3,7 @@ package oncall.model;
 import oncall.exception.CustomIllegalArgumentException;
 import oncall.utils.ErrorMessage;
 
-public class Month {
-
-    private final int value;
-
-    public Month(int value) {
-        this.value = value;
-    }
+public record Month(int value) {
 
     public static Month of(String month) {
         try {
@@ -26,9 +20,5 @@ public class Month {
         if (month <= 0 || month >= 13) {
             throw new CustomIllegalArgumentException(ErrorMessage.INVALID_INPUT);
         }
-    }
-
-    public int getValue() {
-        return value;
     }
 }

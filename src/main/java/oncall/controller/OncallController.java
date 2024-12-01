@@ -4,8 +4,8 @@ import java.time.DayOfWeek;
 import java.util.List;
 import oncall.exception.CustomIllegalArgumentException;
 import oncall.model.Name;
-import oncall.model.StartInput;
 import oncall.model.Order;
+import oncall.model.StartInput;
 import oncall.utils.RecoveryUtils;
 import oncall.view.InputViewer;
 import oncall.view.OutputViewer;
@@ -42,9 +42,9 @@ public class OncallController {
 
     public void getWeekends() {
         try {
-
             String input = RecoveryUtils.executeWithRetry(inputViewer::weekendsInput);
             order.addWeekends(input);
+            order.validMaxSize();
         } catch (CustomIllegalArgumentException e) {
             outputViewer.printError(e);
             getWorkers();
@@ -53,7 +53,7 @@ public class OncallController {
 
     public void process(StartInput startInput) {
         int month = startInput.month()
-                .getValue();
+                .value();
         DayOfWeek dayOfWeek = startInput.dayOfTheWeek()
                 .getDayOfWeek();
 
