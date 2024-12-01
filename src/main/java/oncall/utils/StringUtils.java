@@ -12,13 +12,13 @@ public class StringUtils {
     private StringUtils() {
     }
 
-    public static String[] split(String regex, String input, int fieldCount) {
+    public static String[] split(String regex, String input, Integer fieldCount) {
         if (regex == null || input == null || input.isBlank() || input.startsWith(regex)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT.getMessage());
         }
 
         String[] split = input.split(regex);
-        if (split.length == fieldCount) {
+        if (fieldCount != null && split.length == fieldCount) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT.getMessage());
         }
         return split;

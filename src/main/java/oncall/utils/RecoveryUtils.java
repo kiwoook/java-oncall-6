@@ -1,8 +1,13 @@
 package oncall.utils;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import oncall.view.OutputViewer;
+
 public class RecoveryUtils {
 
-    private static final OutputViewer VIEWER = StoreConfig.getOutputViewer();
+    private static final OutputViewer VIEWER = new OutputViewer();
 
     private RecoveryUtils() {
     }
