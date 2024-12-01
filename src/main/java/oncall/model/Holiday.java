@@ -20,12 +20,12 @@ public enum Holiday {
         this.day = day;
     }
 
-    public static boolean checkHoliday(int month, int day) {
+    public static boolean isHoliday(int month, int day) {
         return Arrays.stream(values())
-                .anyMatch((today) -> today.isHoliday(month, day));
+                .anyMatch((today) -> today.checkHoliday(month, day));
     }
 
-    public boolean isHoliday(int month, int day) {
+    public boolean checkHoliday(int month, int day) {
         return this.month == month && this.day == day;
     }
 }

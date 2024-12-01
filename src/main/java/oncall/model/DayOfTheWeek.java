@@ -1,22 +1,25 @@
 package oncall.model;
 
+import java.time.DayOfWeek;
 import java.util.Arrays;
 import oncall.exception.CustomIllegalArgumentException;
 import oncall.utils.ErrorMessage;
 
 public enum DayOfTheWeek {
-    MON("월"),
-    TUE("화"),
-    WED("수"),
-    THU("목"),
-    FRI("금"),
-    SAT("토"),
-    SUN("일");
+    MON("월", DayOfWeek.MONDAY),
+    TUE("화", DayOfWeek.TUESDAY),
+    WED("수", DayOfWeek.WEDNESDAY),
+    THU("목", DayOfWeek.THURSDAY),
+    FRI("금", DayOfWeek.FRIDAY),
+    SAT("토", DayOfWeek.SATURDAY),
+    SUN("일", DayOfWeek.SUNDAY);
 
     public final String value;
+    private final DayOfWeek dayOfWeek;
 
-    DayOfTheWeek(String value) {
+    DayOfTheWeek(String value, DayOfWeek dayOfWeek) {
         this.value = value;
+        this.dayOfWeek = dayOfWeek;
     }
 
     public static DayOfTheWeek of(String input) {
@@ -25,4 +28,11 @@ public enum DayOfTheWeek {
                         ErrorMessage.INVALID_INPUT));
     }
 
+    public static boolean isWeekends(DayOfWeek dayOfWeek) {
+        return dayOfWeek.equals(DayOfWeek.SATURDAY) || dayOfWeek.equals(DayOfWeek.SUNDAY);
+    }
+
+    public DayOfWeek getDayOfWeek() {
+        return dayOfWeek;
+    }
 }

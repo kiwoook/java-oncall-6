@@ -1,7 +1,10 @@
 package oncall.controller;
 
+import java.time.DayOfWeek;
+import java.util.List;
 import oncall.model.DayOfTheWeek;
 import oncall.model.Month;
+import oncall.model.Name;
 import oncall.model.StartInput;
 import oncall.model.TurnCollect;
 import oncall.utils.RecoveryUtils;
@@ -49,10 +52,16 @@ public class OncallController {
 
 
     public void process(StartInput startInput) {
-        Month month = startInput.month();
+        int month = startInput.month()
+                .getValue();
+        DayOfWeek dayOfWeek = startInput.dayOfTheWeek()
+                .getDayOfWeek();
 
-        //
+        List<Name> nameList = turnCollect.order(month, dayOfWeek);
+
 
     }
+
+
 
 }
