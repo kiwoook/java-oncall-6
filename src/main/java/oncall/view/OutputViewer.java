@@ -15,6 +15,7 @@ public class OutputViewer {
     }
 
     public void printResult(int month, DayOfWeek startdayOfWeek, List<String> names) {
+        System.out.println();
         for (int dayIdx = 0; dayIdx < names.size(); dayIdx++) {
             DayOfWeek dayOfWeek = startdayOfWeek.plus(dayIdx);
 

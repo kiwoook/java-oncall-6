@@ -13,14 +13,14 @@ import oncall.exception.CustomIllegalArgumentException;
 import oncall.utils.ErrorMessage;
 import oncall.utils.StringUtils;
 
-public class TurnCollect {
+public class Order {
 
-    private Deque<Name> weekdaysDeque;
-    private Deque<Name> weekendsDeque;
+    private Deque<Name> weekdaysOrder;
+    private Deque<Name> weekendsOder;
 
-    public TurnCollect() {
-        this.weekdaysDeque = new ArrayDeque<>();
-        this.weekendsDeque = new ArrayDeque<>();
+    public Order() {
+        this.weekdaysOrder = new ArrayDeque<>();
+        this.weekendsOder = new ArrayDeque<>();
     }
 
     public void addWeekdays(String input) {
@@ -31,7 +31,7 @@ public class TurnCollect {
         validDuplicateNames(names);
         validSize(names);
 
-        this.weekdaysDeque = new ArrayDeque<>(names);
+        this.weekdaysOrder = new ArrayDeque<>(names);
     }
 
     public void addWeekends(String input) {
@@ -42,7 +42,7 @@ public class TurnCollect {
         validDuplicateNames(names);
         validSize(names);
 
-        this.weekendsDeque = new ArrayDeque<>(names);
+        this.weekendsOder = new ArrayDeque<>(names);
     }
 
     public void validDuplicateNames(List<Name> names) {
@@ -59,7 +59,7 @@ public class TurnCollect {
         }
     }
 
-    public List<Name> order(int month, DayOfWeek startDayofWeek) {
+    public List<Name> getOrderNameByMonthAndDayOfWeek(int month, DayOfWeek startDayofWeek) {
         List<Name> order = new ArrayList<>();
 
         for (int day = 1; day <= MONTH_DAYS[month]; day++) {
@@ -73,11 +73,11 @@ public class TurnCollect {
         DayOfWeek dayOfWeek = startDayofWeek.plus(day - 1);
 
         if (DayOfTheWeek.isWeekends(dayOfWeek) || Holiday.isHoliday(month, day)) {
-            addName(order, weekendsDeque);
+            addName(order, weekendsOder);
             return;
         }
 
-        addName(order, weekdaysDeque);
+        addName(order, weekdaysOrder);
     }
 
     private void addName(List<Name> order, Deque<Name> deque) {

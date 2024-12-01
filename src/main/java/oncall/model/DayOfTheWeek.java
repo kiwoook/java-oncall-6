@@ -6,8 +6,13 @@ import oncall.exception.CustomIllegalArgumentException;
 import oncall.utils.ErrorMessage;
 
 public enum DayOfTheWeek {
-    MON("월", DayOfWeek.MONDAY), TUE("화", DayOfWeek.TUESDAY), WED("수", DayOfWeek.WEDNESDAY), THU("목",
-            DayOfWeek.THURSDAY), FRI("금", DayOfWeek.FRIDAY), SAT("토", DayOfWeek.SATURDAY), SUN("일", DayOfWeek.SUNDAY);
+    MON("월", DayOfWeek.MONDAY),
+    TUE("화", DayOfWeek.TUESDAY),
+    WED("수", DayOfWeek.WEDNESDAY),
+    THU("목", DayOfWeek.THURSDAY),
+    FRI("금", DayOfWeek.FRIDAY),
+    SAT("토", DayOfWeek.SATURDAY),
+    SUN("일", DayOfWeek.SUNDAY);
 
     public final String korean;
     private final DayOfWeek dayOfWeek;

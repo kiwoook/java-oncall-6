@@ -5,7 +5,7 @@ import java.util.List;
 import oncall.exception.CustomIllegalArgumentException;
 import oncall.model.Name;
 import oncall.model.StartInput;
-import oncall.model.TurnCollect;
+import oncall.model.Order;
 import oncall.utils.RecoveryUtils;
 import oncall.view.InputViewer;
 import oncall.view.OutputViewer;
@@ -14,7 +14,7 @@ public class OncallController {
 
     private final InputViewer inputViewer;
     private final OutputViewer outputViewer;
-    private final TurnCollect turnCollect = new TurnCollect();
+    private final Order order = new Order();
 
     public OncallController(InputViewer inputViewer, OutputViewer outputViewer) {
         this.inputViewer = inputViewer;
@@ -33,17 +33,18 @@ public class OncallController {
 
     public void getWorkers() {
         getWeekdays();
+        getWeekends();
     }
 
     public void getWeekdays() {
-        RecoveryUtils.executeWithRetry(inputViewer::weekdaysInput, turnCollect::addWeekdays);
-        getWeekends();
+        RecoveryUtils.executeWithRetry(inputViewer::weekdaysInput, order::addWeekdays);
     }
 
     public void getWeekends() {
         try {
+
             String input = RecoveryUtils.executeWithRetry(inputViewer::weekendsInput);
-            turnCollect.addWeekends(input);
+            order.addWeekends(input);
         } catch (CustomIllegalArgumentException e) {
             outputViewer.printError(e);
             getWorkers();
@@ -56,7 +57,7 @@ public class OncallController {
         DayOfWeek dayOfWeek = startInput.dayOfTheWeek()
                 .getDayOfWeek();
 
-        List<String> nameList = turnCollect.order(month, dayOfWeek)
+        List<String> nameList = order.getOrderNameByMonthAndDayOfWeek(month, dayOfWeek)
                 .stream()
                 .map(Name::value)
                 .toList();
