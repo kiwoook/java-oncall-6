@@ -3,6 +3,7 @@ package oncall.controller;
 import oncall.model.DayOfTheWeek;
 import oncall.model.Month;
 import oncall.model.StartInput;
+import oncall.model.TurnCollect;
 import oncall.utils.RecoveryUtils;
 import oncall.utils.StringUtils;
 import oncall.view.InputViewer;
@@ -12,6 +13,7 @@ public class OncallController {
 
     private final InputViewer inputViewer;
     private final OutputViewer outputViewer;
+    private TurnCollect turnCollect = new TurnCollect();
 
     public OncallController(InputViewer inputViewer, OutputViewer outputViewer) {
         this.inputViewer = inputViewer;
@@ -19,10 +21,10 @@ public class OncallController {
     }
 
     // 비상 근무 월과 시작 요일 입력
-    public void startInput() {
-
+    public void run() {
         StartInput startInput = RecoveryUtils.executeWithRetry(inputViewer::startInput, this::getStartInput);
-
+        getWeekDays();
+        getWeekends();
 
     }
 
@@ -35,6 +37,22 @@ public class OncallController {
         DayOfTheWeek dayOfTheWeek = DayOfTheWeek.of(split[1]);
 
         return new StartInput(month, dayOfTheWeek);
+    }
+
+    public void getWeekDays() {
+        RecoveryUtils.executeWithRetry(inputViewer::weekdaysInput, turnCollect::addWeekdays);
+    }
+
+    public void getWeekends() {
+        RecoveryUtils.executeWithRetry(inputViewer::weekdaysInput, turnCollect::addWeekends);
+    }
+
+
+    public void process(StartInput startInput) {
+        Month month = startInput.month();
+
+        //
+
     }
 
 }
