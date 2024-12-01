@@ -1,9 +1,11 @@
 package oncall.utils;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.regex.Pattern;
+import oncall.exception.CustomIllegalArgumentException;
 
 public class StringUtils {
 
@@ -14,12 +16,12 @@ public class StringUtils {
 
     public static String[] split(String regex, String input, Integer fieldCount) {
         if (regex == null || input == null || input.isBlank() || input.startsWith(regex)) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT.getMessage());
+            throw new CustomIllegalArgumentException(ErrorMessage.INVALID_INPUT.getMessage());
         }
 
         String[] split = input.split(regex);
-        if (fieldCount != null && split.length == fieldCount) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT.getMessage());
+        if (fieldCount != null && split.length != fieldCount) {
+            throw new CustomIllegalArgumentException(ErrorMessage.INVALID_INPUT.getMessage());
         }
         return split;
     }

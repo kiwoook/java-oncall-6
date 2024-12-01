@@ -11,13 +11,13 @@ public class InputViewer {
     }
 
     public String weekdaysInput() {
-        System.out.println("평일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
+        System.out.print("평일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
 
         return Console.readLine();
     }
 
     public String weekendsInput() {
-        System.out.println("휴일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
+        System.out.print("휴일 비상 근무 순번대로 사원 닉네임을 입력하세요> ");
 
         return Console.readLine();
     }

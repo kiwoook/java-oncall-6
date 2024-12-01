@@ -56,66 +56,53 @@ public class TurnCollect {
     }
 
     // 날짜와 요일을 입력받음
-    public List<Name> order(int month, DayOfWeek dayOfWeek) {
+    public List<Name> order(int month, DayOfWeek startDayofWeek) {
         List<Name> order = new ArrayList<>();
-
-        // 데이오브 윜이 공유 된다...
+        System.out.println("출력 확인");
+        System.out.println(weekdaysDeque);
+        System.out.println(weekendsDeque);
+        System.out.println("------");
 
         for (int day = 1; day <= MONTH_DAYS[month]; day++) {
-            // 먼저 휴일인지 확인한다.
-            if (DayOfTheWeek.isWeekends(dayOfWeek) || Holiday.isHoliday(month, day)) {
-                // 휴일이면 휴일 데큐에서 빼내야한다.
-                Name name = weekendsDeque.peekFirst();
-                if (checkContinuouslyName(order, name)) {
-                    // 연속적이라면 해당 이름을 대기한다.
-                    Name waitName = weekendsDeque.pollFirst();
-                    // 지금 이름을 빼내고 큐에 큐에 추가하고 다시 뒤에 넣는다
-                    Name nextName = weekendsDeque.pollFirst();
-                    weekendsDeque.addFirst(waitName);
-                    order.add(nextName);
-                    weekendsDeque.addLast(nextName);
-                    dayOfWeek = dayOfWeek.plus(1);
-                    continue;
-                }
-                // 연속적이지 않다면 빼낸다.
-                // 함수 분리해서 처리하자.
-                order.add(getNextNameByWeekend());
-                dayOfWeek = dayOfWeek.plus(1);
-                continue;
-            }
-            // 휴일이 아니라면
-            Name name = weekdaysDeque.peekFirst();
-            if (checkContinuouslyName(order, name)) {
-                Name waitName = weekdaysDeque.pollFirst();
-                Name nextName = weekdaysDeque.pollFirst();
-                weekdaysDeque.addFirst(waitName);
-                order.add(nextName);
-                weekdaysDeque.addLast(nextName);
-                dayOfWeek = dayOfWeek.plus(1);
-                continue;
-            }
-
-            order.add(getNextNameByWeekday());
-            dayOfWeek = dayOfWeek.plus(1);
+            checkWeek(month, day, startDayofWeek, order);
         }
 
         return order;
     }
 
+    private void checkWeek(int month, int day, DayOfWeek startDayofWeek, List<Name> order) {
+        DayOfWeek dayOfWeek = startDayofWeek.plus(day - 1);
 
-    public Name getNextNameByWeekend() {
-        Name nextName = weekendsDeque.pollFirst();
-        weekendsDeque.addLast(nextName);
+        if (DayOfTheWeek.isWeekends(dayOfWeek) || Holiday.isHoliday(month, day)) {
+            addName(order, weekendsDeque);
+            return;
+        }
+
+        addName(order, weekdaysDeque);
+    }
+
+    private void addName(List<Name> order, Deque<Name> deque) {
+        Name name = deque.peekFirst();
+        if (checkContinuouslyName(order, name)) {
+            Name waitName = deque.pollFirst();
+            Name nextName = deque.pollFirst();
+            deque.addFirst(waitName);
+            order.add(nextName);
+            deque.addLast(nextName);
+            return;
+        }
+
+        order.add(getNextName(deque));
+    }
+
+
+    public Name getNextName(Deque<Name> deque) {
+        Name nextName = deque.pollFirst();
+        deque.addLast(nextName);
 
         return nextName;
     }
 
-    public Name getNextNameByWeekday() {
-        Name nextName = weekdaysDeque.pollFirst();
-        weekendsDeque.addLast(nextName);
-
-        return nextName;
-    }
 
     public boolean checkContinuouslyName(List<Name> order, Name name) {
         if (order.isEmpty()) {

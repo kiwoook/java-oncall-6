@@ -3,6 +3,7 @@ package oncall.utils;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import oncall.exception.CustomIllegalArgumentException;
 import oncall.view.OutputViewer;
 
 public class RecoveryUtils {
@@ -16,7 +17,7 @@ public class RecoveryUtils {
         while (true) {
             try {
                 return processFunction.apply(inputSupplier.get());
-            } catch (IllegalArgumentException e) {
+            } catch (CustomIllegalArgumentException e) {
                 VIEWER.printError(e);
             }
         }
@@ -28,7 +29,7 @@ public class RecoveryUtils {
                 T input = inputSupplier.get();
                 processFunction.accept(input);
                 return;
-            } catch (IllegalArgumentException e) {
+            } catch (CustomIllegalArgumentException e) {
                 VIEWER.printError(e);
             }
         }
@@ -38,7 +39,7 @@ public class RecoveryUtils {
         while (true) {
             try {
                 return inputSupplier.get();
-            } catch (IllegalArgumentException e) {
+            } catch (CustomIllegalArgumentException e) {
                 VIEWER.printError(e);
             }
         }
